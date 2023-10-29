@@ -3,7 +3,12 @@ const router = express.Router();
 
 const { mongoose } = require("./db");
 
-router.get("/", async (req, res) => {
+
+router.get("/", (req, res) => {
+  res.json("This is Trip s Api"); 
+});
+
+router.get("/api", async (req, res) => {
   try {
     const limit = 50;
     const tripCollection = mongoose.connection.collection("trips_details");

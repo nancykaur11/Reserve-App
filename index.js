@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api", apiRoutes);
+app.use("/", apiRoutes);
 
 async function startServer() {
   try {
