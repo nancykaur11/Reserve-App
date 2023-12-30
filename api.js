@@ -12,17 +12,37 @@ router.get("/", (req, res) => {
   res.json("This is Trip Api");
 });
 
+// router.get("/api", async (req, res) => {
+//   try {
+//     const limit = 50;
+//     const tripCollection = mongoose.connection.collection("trips_details");
+//     const trips = await tripCollection.find({}).limit(limit).toArray();
+//     res.json(trips);
+//   } catch (error) {
+//     console.error("Error retrieving past trips:", error);
+//     res.status(500).json({ error: "Error retrieving past trips", details: error.message });
+//   }
+// });
 router.get("/api", async (req, res) => {
   try {
     const limit = 50;
     const tripCollection = mongoose.connection.collection("trips_details");
-    const trips = await tripCollection.find({}).limit(limit).toArray();
+    
+    let trips;
+    if (tripCollection.find().limit) {
+      trips = await tripCollection.find().limit(limit).toArray();
+    } else {
+      trips = await tripCollection.find().toArray();
+      trips = trips.slice(0, limit); // Manually limit the array if limit is not supported
+    }
+
     res.json(trips);
   } catch (error) {
     console.error("Error retrieving past trips:", error);
     res.status(500).json({ error: "Error retrieving past trips", details: error.message });
   }
 });
+
 
 router.get("/trips", async (req, res) => {
   const {
