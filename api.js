@@ -15,7 +15,8 @@ router.get("/", (req, res) => {
 router.get("/apis", async (req, res) => {
   try {
     const tripCollection = mongoose.connection.collection("trips_details");
-    const trips = await tripCollection.find({});
+    const trips = await tripCollection.find({}).maxTimeMS(20000).toArray();
+
     res.json(trips);
   } catch (error) {
     console.error("Error retrieving past trips:", error);
