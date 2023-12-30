@@ -20,7 +20,7 @@ router.get("/api", async (req, res) => {
     res.json(trips);
   } catch (error) {
     console.error("Error retrieving past trips:", error);
-    res.status(500).json({ error: "Error retrieving past trips",error });
+    res.status(500).json({ error: "Error retrieving past trips", details: error.message });
   }
 });
 
