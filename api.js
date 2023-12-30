@@ -212,10 +212,6 @@ router.get("/api/buses", async (req, res) => {
 
 router.post("/orders", async (req, res) => {
   try {
-    // const instance = new Razorpay({
-    // 	key_id: process.env.KEY_ID,
-    // 	key_secret: process.env.KEY_SECRET,
-    // });
     const razorpay = new Razorpay({
       key_id: "rzp_test_ISZIkTa5BDsapy",
       key_secret: "cdo8ce5WDCOtRCnsHk6uyMdq",
