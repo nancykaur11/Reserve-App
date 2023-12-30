@@ -17,10 +17,12 @@ router.get("/apis", async (req, res) => {
     const tripCollection = mongoose.connection.collection("trips_details");
     const trips = await tripCollection.find({}).maxTimeMS(20000).toArray();
 
-    res.json(trips);
+    res.json(tripCollection);
   } catch (error) {
     console.error("Error retrieving past trips:", error);
-    res.status(500).json({ error: "Error retrieving past trips", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Error retrieving past trips", details: error.message });
   }
 });
 
@@ -28,7 +30,7 @@ router.get("/api", async (req, res) => {
   try {
     const limit = 50;
     const tripCollection = mongoose.connection.collection("trips_details");
-    
+
     const tripsCursor = tripCollection.find();
     const trips = await tripsCursor.toArray();
 
@@ -38,11 +40,11 @@ router.get("/api", async (req, res) => {
     res.json(limitedTrips);
   } catch (error) {
     console.error("Error retrieving past trips:", error);
-    res.status(500).json({ error: "Error retrieving past trips", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Error retrieving past trips", details: error.message });
   }
 });
-
-
 
 router.get("/trips", async (req, res) => {
   const {
@@ -97,10 +99,10 @@ router.get("/trips", async (req, res) => {
         },
         {
           $lookup: {
-            from: 'bus_details',
-            localField: 'busName',
-            foreignField: 'name',
-            as: 'schedules',
+            from: "bus_details",
+            localField: "busName",
+            foreignField: "name",
+            as: "schedules",
           },
         },
       ])
@@ -112,7 +114,6 @@ router.get("/trips", async (req, res) => {
     res.status(500).json({ error: "Error fetching trips" });
   }
 });
-
 
 router.get("/trips/date", async (req, res) => {
   const { date } = req.query;
@@ -187,25 +188,26 @@ router.get("/trips/date", async (req, res) => {
 //   }
 // });
 
-
-router.get('/api/buses', async (req, res) => {
+router.get("/api/buses", async (req, res) => {
   try {
     const busesCollection = mongoose.connection.collection("trips_details");
-      const result = await busesCollection.aggregate([
-          {
-              $lookup: {
-                  from: 'bus_details',
-                  localField: 'busName',
-                  foreignField: 'name',
-                  as: 'schedules'
-              }
-          }
-      ]).toArray();
+    const result = await busesCollection
+      .aggregate([
+        {
+          $lookup: {
+            from: "bus_details",
+            localField: "busName",
+            foreignField: "name",
+            as: "schedules",
+          },
+        },
+      ])
+      .toArray();
 
-      res.json(result);
+    res.json(result);
   } catch (err) {
-      console.error('Error retrieving data from MongoDB', err);
-      res.status(500).send('Internal Server Error');
+    console.error("Error retrieving data from MongoDB", err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
