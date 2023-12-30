@@ -1,3 +1,5 @@
+// 
+// db.js
 const mongoose = require("mongoose");
 
 const uri = "mongodb+srv://nancykaur:komalapp@cluster0.fgbj8ui.mongodb.net/Reserveapp";

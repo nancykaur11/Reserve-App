@@ -260,8 +260,6 @@ router.post("/verify", async (req, res) => {
     console.log(error);
   }
 });
-
-// Mongoose model for orders (simplified)
 const Order = mongoose.model(
   "Order",
   new mongoose.Schema({
@@ -273,7 +271,6 @@ const Order = mongoose.model(
   })
 );
 
-// Endpoint to create an order
 router.post("/create-order", async (req, res) => {
   const payment_capture = 1;
   const amount = 500;
@@ -304,8 +301,6 @@ router.post("/create-order", async (req, res) => {
     res.status(500).send(error);
   }
 });
-
-// Endpoint to verify payment
 router.post("/verify-payment", async (req, res) => {
   const { payment_id, order_id } = req.body;
   res.json({ status: "Payment verified successfully" });
