@@ -31,13 +31,11 @@ router.get("/api", async (req, res) => {
     const limit = 50;
     const tripCollection = mongoose.connection.collection("trips_details");
 
-    const tripsCursor = tripCollection.find();
+    // Use limit directly on the cursor to reduce data transfer
+    const tripsCursor = tripCollection.find().limit(limit);
     const trips = await tripsCursor.toArray();
 
-    // Manually limit the array if necessary
-    const limitedTrips = trips.slice(0, limit);
-
-    res.json(limitedTrips);
+    res.json(trips);
   } catch (error) {
     console.error("Error retrieving past trips:", error);
     res
@@ -45,6 +43,7 @@ router.get("/api", async (req, res) => {
       .json({ error: "Error retrieving past trips", details: error.message });
   }
 });
+
 
 router.get("/trips", async (req, res) => {
   const {
