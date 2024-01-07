@@ -1,6 +1,4 @@
-// models/Bus.js
 const mongoose = require("mongoose");
-
 const busSchema = new mongoose.Schema({
   date: String,
   from: String,
