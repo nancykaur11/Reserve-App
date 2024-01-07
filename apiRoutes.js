@@ -221,7 +221,7 @@ router.post("/order_details", async (req, res) => {
       date,
       seatNumber,
       passengerDetails,
-      destination,
+      travel,
     });
     const savedOrderDetail = await orderDetail.save();
     res.status(201).json({savedOrderDetail:"send"});
