@@ -206,9 +206,10 @@ router.post("/order_details", async (req, res) => {
       busName,
       busTiming,
       date,
+      cost,
       seatNumber,
       passengerDetails,
-      destination,
+      travel
     } = req.body;
     if (!contactNumber) {
       return res.status(400).json({ error: "Contact number is required." });
@@ -223,7 +224,7 @@ router.post("/order_details", async (req, res) => {
       destination,
     });
     const savedOrderDetail = await orderDetail.save();
-    res.status(201).json(savedOrderDetail);
+    res.status(201).json({savedOrderDetail:"send"});
   } catch (error) {
     console.error("Error creating order:", error);
     res.status(500).json({ error: "Internal Server Error" });

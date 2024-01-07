@@ -1,22 +1,24 @@
 const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
-  {
-    contactNumber: String,
-    busName: String,
-    busTiming: String,
-    date: String,
-    seatNumber: [Number],
-    passengerDetails: [
-      {
-        name: String,
-        age: Number,
-        gender: String,
+    {
+        contactNumber: String,
+        busName: String,
+        busTiming: [String],
+        date: String,
+        seatNumber: [String],
+        passengerDetails: [
+          {
+            name: String,
+            age: String,
+            gender: String,
+          },
+        ],
+        travel: [String],
+        cost: Number,
       },
-    ],
-    destination: String,
-  },
-  { collection: "order_details" }
-);
+      { collection: "order_details" }
+    );
+    
 const OrderDetails = mongoose.model("Orderdetails", orderSchema);
 
 module.exports = OrderDetails;
