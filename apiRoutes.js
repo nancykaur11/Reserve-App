@@ -125,15 +125,42 @@ router.get("/trips", async (req, res) => {
     }
   });
   
+  // router.post("/verify", async (req, res) => {
+  //   try {
+  //     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+  //       req.body;
+  //     const sign = razorpay_order_id + "|" + razorpay_payment_id;
+  //     const expectedSign = crypto
+  //       .createHmac("sha256", process.env.KEY_SECRET)
+  //       .update(sign.toString())
+  //       .digest("hex");
+  
+  //     if (razorpay_signature === expectedSign) {
+  //       return res.status(200).json({ message: "Payment verified successfully" });
+  //     } else {
+  //       return res.status(400).json({ message: "Invalid signature sent!" });
+  //     }
+  //   } catch (error) {
+  //     res.status(500).json({ message: "Internal Server Error!",error });
+  //     console.log(error);
+  //   }
+  // });
+  
   router.post("/verify", async (req, res) => {
     try {
-      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-        req.body;
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  
+      // Debugging: Log the received values
+      console.log("Received Values:", { razorpay_order_id, razorpay_payment_id, razorpay_signature });
+  
       const sign = razorpay_order_id + "|" + razorpay_payment_id;
       const expectedSign = crypto
-        .createHmac("sha256", process.env.KEY_SECRET)
+        .createHmac("sha256", "cdo8ce5WDCOtRCnsHk6uyMdq")
         .update(sign.toString())
         .digest("hex");
+  
+      // Debugging: Log the calculated signature
+      console.log("Expected Signature:", expectedSign,razorpay_signature);
   
       if (razorpay_signature === expectedSign) {
         return res.status(200).json({ message: "Payment verified successfully" });
@@ -141,10 +168,15 @@ router.get("/trips", async (req, res) => {
         return res.status(400).json({ message: "Invalid signature sent!" });
       }
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error!" });
-      console.log(error);
+      // Debugging: Log any errors
+      console.error("Error in /verify:", error);
+  
+      res.status(500).json({ message: "Internal Server Error!", error });
     }
   });
+  
+  
+  
   const Order = mongoose.model(
     "Order",
     new mongoose.Schema({
